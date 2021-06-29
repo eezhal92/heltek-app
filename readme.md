@@ -9,3 +9,4 @@ Frontend mentoring backend app
 ## Run the app
 - Install deps `yarn install`
 - Run `yarn dev`
+- Refer to `http://localhost:5000/api-docs` for documentation
