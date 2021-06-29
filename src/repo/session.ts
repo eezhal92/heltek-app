@@ -15,6 +15,11 @@ export class UserSession {
   public static create(token: string, user: User) {
     return new UserSession(token, user);
   }
+
+  public static generateFor(user: User) {
+    const token = Math.random().toString();
+    return UserSession.create(token, user);
+  }
 }
 
 export class UserSessionRepo extends BaseRepo<UserSession> {

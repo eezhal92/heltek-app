@@ -64,4 +64,8 @@ export class User {
   }
 }
 
-export class UserRepo extends BaseRepo<User> {}
+export class UserRepo extends BaseRepo<User> {
+  public findByEmailAndPassword(email: string, password: string) : User | null {
+    return this.data.find(user => user.email === email && user.getPassword() === password) || null;
+  }
+}

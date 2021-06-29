@@ -8,17 +8,17 @@ const user  = new User('john', 'john@gmail.com', 'password');
 
 userRepo.setData([
   user,
-  new User('john', 'john@gmail.com', 'password'),
-  new User('john', 'john@gmail.com', 'password'),
-  new User('john', 'john@gmail.com', 'password'),
-  new User('john', 'john@gmail.com', 'password'),
-  new User('john', 'john@gmail.com', 'password'),
-  new User('john', 'john@gmail.com', 'password'),
+  new User('mark', 'mark@gmail.com', 'password'),
+  new User('greg', 'greg@gmail.com', 'password'),
+  new User('jane', 'jane@gmail.com', 'password'),
+  new User('mike', 'mike@gmail.com', 'password'),
+  new User('bill', 'bill@gmail.com', 'password'),
+  new User('fred', 'fred@gmail.com', 'password'),
 ]);
 
 const userSessionRepo = new UserSessionRepo();
 userSessionRepo.setData([
-  UserSession.create('token', user),
+  UserSession.create('valid_example_token', user),
 ])
 
 const facilityRepo = new FacilityRepo();

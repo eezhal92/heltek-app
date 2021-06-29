@@ -1,6 +1,6 @@
 swagger: "2.0"
 info:
-  description: "This is a sample server for hammercode frontend mentoring program"
+  description: "This is a sample server for hammercode frontend mentoring program. For quick endpoint access, You can use: `valid_example_token` as X-Heltek-Token header value to authenticate your request"
   version: "1.0.0"
   title: "Heltek"
   termsOfService: "http://swagger.io/terms/"
@@ -12,8 +12,8 @@ info:
 host: "localhost:5000"
 basePath: "/"
 tags:
-- name: "store"
-  description: "Access to Petstore orders"
+- name: "auth"
+  description: "User authentication"
 - name: "facility"
   description: "Health facilities"
 - name: "booking"
@@ -27,6 +27,24 @@ schemes:
 - "https"
 - "http"
 paths:
+  /auth:
+    post:
+      tags:
+        - "auth"
+      summary: "Get auth token for authenticating request"
+      produces:
+        - "application/json"
+      responses:
+        200:
+          description: "successful operation"
+          schema:
+            type: "object"
+            properties:
+              token:
+                type: "string"
+                description: "Use this token in X-Heltek-Token header when accessing protected endpoint"
+        404:
+          description: "User account is not found"
   /facilities:
     get:
       tags:
@@ -225,16 +243,9 @@ paths:
         403:
           description: "Not authorized"
 securityDefinitions:
-  petstore_auth:
-    type: "oauth2"
-    authorizationUrl: "http://petstore.swagger.io/oauth/dialog"
-    flow: "implicit"
-    scopes:
-      write:pets: "modify pets in your account"
-      read:pets: "read your pets"
-  api_key:
+  auth_token:
     type: "apiKey"
-    name: "api_key"
+    name: "X-Heltek-Token"
     in: "header"
 definitions:
   User:
@@ -311,6 +322,15 @@ definitions:
     type: "array"
     items:
       $ref: "#/definitions/Booking"
+  LoginPayload:
+    type: "object"
+    properties:
+      email:
+        type: "string"
+        required: true
+      password:
+        type: "string"
+        required: true
   ApiResponse:
     type: "object"
     properties:
