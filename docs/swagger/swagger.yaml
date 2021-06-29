@@ -1,0 +1,340 @@
+swagger: "2.0"
+info:
+  description: "This is a sample server for hammercode frontend mentoring program"
+  version: "1.0.0"
+  title: "Heltek"
+  termsOfService: "http://swagger.io/terms/"
+  contact:
+    email: "unknown@hammercode.org"
+  license:
+    name: "Apache 2.0"
+    url: "http://www.apache.org/licenses/LICENSE-2.0.html"
+host: "localhost:5000"
+basePath: "/"
+tags:
+- name: "store"
+  description: "Access to Petstore orders"
+- name: "facility"
+  description: "Health facilities"
+- name: "booking"
+  description: "All about medical appointment"
+- name: "user"
+  description: "Users in system"
+  externalDocs:
+    description: "Find out more about our store"
+    url: "http://swagger.io"
+schemes:
+- "https"
+- "http"
+paths:
+  /facilities:
+    get:
+      tags:
+        - "facility"
+      summary: "Get list of health facility"
+      produces:
+        - "application/json"
+      responses:
+        200:
+          description: "successful operation"
+          schema:
+            type: "object"
+            properties:
+              data:
+                $ref: "#/definitions/ArrayOfFacility"
+              total:
+                type: "integer"
+                description: "The total of all results"
+              currentPage:
+                type: "integer"
+              totalPage:
+                type: "integer"
+                description: "The total number of page"
+        401:
+          description: "Not authenticated"
+        403:
+          description: "Not authorized"
+    post:
+      tags:
+        - "facility"
+      summary: "Create a new health facility resource"
+      produces:
+        - "application/json"
+      parameters:
+        - in: "body"
+          name:  "body"
+          description: "the data of a health facility"
+          required: true
+          schema:
+            $ref: "#/definitions/FacilityPayload"
+        - in: header
+          name: X-Heltek-Token
+          description: "Authentication token"
+          schema:
+            type: string
+          required: true
+      responses:
+        201:
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/Facility"
+        401:
+          description: "Not authenticated"
+        403:
+          description: "Not authorized"
+        422:
+          description: "Unprocessable entity"
+          schema:
+            $ref: "#/definitions/InvalidRequestInput"
+  /facilities/{id}:
+    get:
+      tags:
+        - "facility"
+      summary: "Get an existing health facility"
+      produces:
+        - "application/json"
+      parameters:
+        - in: "path"
+          name: "id"
+          schema:
+            type: "integer"
+          required: true
+          description: "the id of particular health facility"
+      responses:
+        200:
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/Facility"
+        404:
+          description: "Not found"
+        401:
+          description: "Not authenticated"
+        403:
+          description: "Not authorized"
+    put:
+      tags:
+        - "facility"
+      summary: "Update an existing health facility"
+      produces:
+        - "application/json"
+      parameters:
+        - in: "path"
+          name: "id"
+          schema:
+            type: "integer"
+          required: true
+          description: "the id of particular health facility"
+        - in: "body"
+          name:  "body"
+          description: "the new data of a health facility"
+          required: true
+          schema:
+            $ref: "#/definitions/FacilityPayload"
+      responses:
+        200:
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/Facility"
+        404:
+          description: "Not found"
+        401:
+          description: "Not authenticated"
+        403:
+          description: "Not authorized"
+    delete:
+      tags:
+        - "facility"
+      summary: "Remove an existing health facility"
+      produces:
+        - "application/json"
+      parameters:
+        - in: "path"
+          name: "id"
+          schema:
+            type: "integer"
+          required: true
+          description: "the id of particular health facility"
+      responses:
+        200:
+          description: "successful operation"
+          schema:
+            type: "object"
+            properties:
+              message:
+                type: "string"
+        404:
+          description: "Not found"
+        401:
+          description: "Not authenticated"
+        403:
+          description: "Not authorized"
+  /users:
+    get:
+      tags:
+      - "user"
+      summary: "Get list of user"
+      description: "This can only be done by the logged in user."
+      produces:
+      - "application/json"
+      responses:
+        200:
+          description: "successful operation"
+          schema:
+            type: "object"
+            properties:
+              data:
+                $ref: "#/definitions/ListOfUser"
+              total:
+                type: "integer"
+                description: "The total of all results"
+              currentPage:
+                type: "integer"
+              totalPage:
+                type: "integer"
+                description: "The total number of page"
+        401:
+          description: "Not authenticated"
+        403:
+          description: "Not authorized"
+  /bookings:
+    get:
+      tags:
+      - "booking"
+      summary: "Get list of appointment booking"
+      description: "This can only be done by the logged in user."
+      produces:
+      - "application/json"
+      responses:
+        200:
+          description: "successful operation"
+          schema:
+            type: "object"
+            properties:
+              data:
+                $ref: "#/definitions/ListOfBooking"
+              total:
+                type: "integer"
+                description: "The total of all results"
+              currentPage:
+                type: "integer"
+              totalPage:
+                type: "integer"
+                description: "The total number of page"
+        401:
+          description: "Not authenticated"
+        403:
+          description: "Not authorized"
+securityDefinitions:
+  petstore_auth:
+    type: "oauth2"
+    authorizationUrl: "http://petstore.swagger.io/oauth/dialog"
+    flow: "implicit"
+    scopes:
+      write:pets: "modify pets in your account"
+      read:pets: "read your pets"
+  api_key:
+    type: "apiKey"
+    name: "api_key"
+    in: "header"
+definitions:
+  User:
+    type: "object"
+    properties:
+      id:
+        type: "integer"
+        format: "int64"
+      name:
+        type: "string"
+      email:
+        type: "string"
+      password:
+        type: "string"
+      roles:
+        $ref: "#/definitions/ArrayOfRole"
+  ListOfUser:
+    type: "array"
+    items:
+      $ref: "#/definitions/User"
+  Role:
+    type: "object"
+    properties:
+      name:
+        type: "string"
+      permissions:
+        type: "array"
+        items:
+          type: "string"
+  ArrayOfRole:
+    type: "array"
+    items:
+      $ref: "#/definitions/Role"
+  Facility:
+    type: "object"
+    properties:
+      id:
+        type: "integer"
+        format: "int64"
+      name:
+        type: "string"
+      address:
+        type: "string"
+      type:
+        type: "string"
+        enum: ["clinic", "hospital"]
+  ArrayOfFacility:
+    type: "array"
+    items:
+      $ref: "#/definitions/Facility"
+  FacilityPayload:
+    type: "object"
+    properties:
+      name:
+        type: "string"
+      address:
+        type: "string"
+      type:
+        type: "string"
+        enum: ["clinic", "hospital"]
+  Booking:
+    type: "object"
+    properties:
+      id:
+        type: "integer"
+      schedule:
+        type: "string"
+        format: "date-time"
+      user:
+        $ref: "#/definitions/User"
+      facility:
+        $ref: "#/definitions/Facility"
+  ListOfBooking:
+    type: "array"
+    items:
+      $ref: "#/definitions/Booking"
+  ApiResponse:
+    type: "object"
+    properties:
+      code:
+        type: "integer"
+        format: "int32"
+      type:
+        type: "string"
+      message:
+        type: "string"
+  InvalidRequestInput:
+    type: "object"
+    example:
+      errors:
+        field_a: ["field a is required"]
+        field_b: ["field b should be an integer"]
+    properties:
+      errors:
+        type: "object"
+        description: "Pair of request body field and array of validation message"
+        additionalProperties:
+          type: "array"
+          items:
+            type: "string"  
+externalDocs:
+  description: "Find out more about Swagger"
+  url: "http://swagger.io"
