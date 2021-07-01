@@ -29,7 +29,7 @@ schemes:
 - "https"
 - "http"
 paths:
-  /auth:
+  /auth/login:
     post:
       tags:
         - "auth"
@@ -45,6 +45,23 @@ paths:
               token:
                 type: "string"
                 description: "Use this token in X-Heltek-Token header when accessing protected endpoint"
+        404:
+          description: "User account is not found"
+  /auth/logout:
+    post:
+      tags:
+        - "auth"
+      summary: "Delete all user session / token"
+      produces:
+        - "application/json"
+      responses:
+        200:
+          description: "successful operation"
+          schema:
+            type: "object"
+            properties:
+              message:
+                type: "string"
         404:
           description: "User account is not found"
   /profile:
