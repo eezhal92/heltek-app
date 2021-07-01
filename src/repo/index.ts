@@ -1,14 +1,43 @@
+import { BookingManagmentPermission, FacilityManagementPermission, UserManagementPermission } from '@src/lib/permission';
 import { Booking, BookingRepo } from './booking';
 import { Facility, FacilityRepo, FacilityType } from './facility';
 import { UserSession, UserSessionRepo } from './session';
-import { User, UserRepo } from './user';
+import { Role, User, UserRepo } from './user';
 
 const userRepo = new UserRepo();
-const user  = new User('john', 'john@gmail.com', 'password');
+const admin = new Role('Admin', [
+  FacilityManagementPermission.ViewList,
+  FacilityManagementPermission.ViewDetail,
+  FacilityManagementPermission.Create,
+  FacilityManagementPermission.Update,
+  FacilityManagementPermission.Delete,
+  
+  BookingManagmentPermission.ViewList,
+  BookingManagmentPermission.ViewDetail,
+  BookingManagmentPermission.Create,
+  BookingManagmentPermission.Update,
+  BookingManagmentPermission.Delete,
+  
+  UserManagementPermission.ViewList,
+  UserManagementPermission.ViewDetail,
+  UserManagementPermission.Create,
+  UserManagementPermission.Update,
+  UserManagementPermission.Delete,
+]);
+
+const viewer = new Role('Viewer', [
+  FacilityManagementPermission.ViewList,
+  FacilityManagementPermission.ViewDetail,
+  
+  BookingManagmentPermission.ViewList,
+  BookingManagmentPermission.ViewDetail,
+]);
+
+const user  = new User('john', 'john@gmail.com', 'password', [admin]);
 
 userRepo.setData([
   user,
-  new User('mark', 'mark@gmail.com', 'password'),
+  new User('mark', 'mark@gmail.com', 'password', [viewer]),
   new User('greg', 'greg@gmail.com', 'password'),
   new User('jane', 'jane@gmail.com', 'password'),
   new User('mike', 'mike@gmail.com', 'password'),

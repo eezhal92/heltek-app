@@ -11,38 +11,19 @@ export class Role {
   }
 }
 
-const admin = new Role('Admin', [
-  FacilityManagementPermission.ViewList,
-  FacilityManagementPermission.ViewDetail,
-  FacilityManagementPermission.Create,
-  FacilityManagementPermission.Update,
-  FacilityManagementPermission.Delete,
-  
-  BookingManagmentPermission.ViewList,
-  BookingManagmentPermission.ViewDetail,
-  BookingManagmentPermission.Create,
-  BookingManagmentPermission.Update,
-  BookingManagmentPermission.Delete,
-  
-  UserManagementPermission.ViewList,
-  UserManagementPermission.ViewDetail,
-  UserManagementPermission.Create,
-  UserManagementPermission.Update,
-  UserManagementPermission.Delete,
-]);
-
 export class User {
   public id: number = 0;
   public name: string = '';
   public email: string = '';
   private password: string = '';
-  public roles: Role[] = [admin];
+  public roles: Role[] = [];
 
-  public constructor(name: string, email: string, password?: string) {
+  public constructor(name: string, email: string, password?: string, roles?: Role[]) {
     this.id = Math.random();
     this.name = name;
     this.email = email;
     if (password) this.password = password;
+    this.roles = roles || [];
   }
 
   public get permissions() : string[] {
