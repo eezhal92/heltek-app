@@ -26,4 +26,10 @@ export class UserSessionRepo extends BaseRepo<UserSession> {
   public findByToken(token: string) {
     return this.data.find(session => session.token === token) || null;
   }
+
+  public revokeAllToken(user: User) {
+    this.data = this.data.filter(
+      session => session.user.id !== user.id,
+    );
+  }
 }

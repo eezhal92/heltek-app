@@ -14,6 +14,8 @@ basePath: "/"
 tags:
 - name: "auth"
   description: "User authentication"
+- name: "profile"
+  description: "User profile"
 - name: "facility"
   description: "Health facilities"
 - name: "booking"
@@ -45,6 +47,21 @@ paths:
                 description: "Use this token in X-Heltek-Token header when accessing protected endpoint"
         404:
           description: "User account is not found"
+  /profile:
+    get:
+      tags:
+        - "profile"
+      summary: "Get data of current user"
+      produces:
+        - "application/json"
+      responses:
+        200:
+          description: "successful operation"
+          schema:
+            type: "object"
+            properties:
+              user:
+                $ref: "#/definitions/User"
   /facilities:
     get:
       tags:
