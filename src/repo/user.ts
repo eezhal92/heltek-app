@@ -1,4 +1,4 @@
-import { BookingManagmentPermission, FacilityManagementPermission, ManagementPermissions, UserManagementPermission } from "../lib/permission";
+import { ManagementPermissions } from "../lib/permission";
 import { BaseRepo } from "./base";
 
 export class Role {

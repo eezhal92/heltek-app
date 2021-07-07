@@ -86,6 +86,20 @@ paths:
       summary: "Get list of health facility"
       produces:
         - "application/json"
+      parameters:
+        - in: header
+          name: X-Heltek-Token
+          schema:
+            type: string
+          required: true
+        - in: query
+          name: page
+          schema:
+            type: integer
+        - in: query
+          name: limit
+          schema:
+            type: integer
       responses:
         200:
           description: "successful operation"
