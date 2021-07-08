@@ -22,6 +22,7 @@ export function login (req: Request, res: Response) {
   userSessionRepo.add(session);
   res.json({
     token: session.token,
+    user: user.toDTO(),
   });
 }
 

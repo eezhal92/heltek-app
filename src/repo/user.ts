@@ -43,6 +43,15 @@ export class User {
   public hasManagementPermission(permission: ManagementPermissions) {
     return this.permissions.includes(permission);
   }
+
+  public toDTO () {
+    return {
+      id: this.id,
+      name: this.name,
+      email: this.email,
+      roles: this.roles,
+    };
+  }
 }
 
 export class UserRepo extends BaseRepo<User> {

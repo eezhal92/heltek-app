@@ -45,6 +45,8 @@ paths:
               token:
                 type: "string"
                 description: "Use this token in X-Heltek-Token header when accessing protected endpoint"
+              user:
+                $ref: "#/definitions/User"
         404:
           description: "User account is not found"
   /auth/logout:
